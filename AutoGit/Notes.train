@@ -1,1 +1,7 @@
+...
+If cd $path; then
+ If cd successful do something
+else
+ Otherwise skip line
 
+Ref: Bash page 98, flow control
