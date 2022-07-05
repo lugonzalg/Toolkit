@@ -10,3 +10,15 @@ Use $? to keep track of a command return
 i.e 
     cd path
     retval=$? (cd command exit status saved in v variable)
+
+
+In case that a own function is created with the same name as
+a built-in, and then insidd of that func the built-in is used.l,
+with the builtin keyword it Willi trigger skipping recursions
+
+i.e
+    cd () [this will end-up on a recursion]
+       cd $path
+
+    cd () [builtin keyword forces to be a built-in]
+       builtin cd $path
