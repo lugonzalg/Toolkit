@@ -5,3 +5,8 @@ else
  Otherwise skip line
 
 Ref: Bash page 98, flow control
+
+Use $? to keep track of a command return
+i.e 
+    cd path
+    retval=$? (cd command exit status saved in v variable)
