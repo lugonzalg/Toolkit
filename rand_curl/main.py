@@ -3,21 +3,29 @@ import random
 import time
 
 def test(t):
-    print(t)
-    headers = {
+    url="https://plataforma.ibizasmartisland.com:443/api/v1/871d7abd15d7593800a1/telemetry"
+    myHeaders = {
         'accept': 'application/json',
         'Content-Type': 'application/json',
     }
-    data = {"Amp_hour":t}
-    response = requests.post('http://212.227.169.80:8080/api/v1/174d5c06a6159b222154/telemetry', headers=headers, json=data)    
-    print(response)
-    print(response.status_code)
+    val1 = random.randint(0, 1300)
+    val2 = random.randint(0, 1000)
+    val3 = random.randint(0, 1000)
+    send_str = str(val1) + ':' + str(val2) + ':' + str(val3)
+    myData = {"data_mydata":send_str}
+    response = requests.post(url , headers=myHeaders, json=myData)
+    try:
+        print(response)
+        print(response.status_code)
+        print(response.json())
+    except Exception as e:
+        print(e)
 
 def main():
     while True:
-       n = random.randint(0, 100) 
+       n = random.randint(0, 100)
        test(n)
-       time.sleep(1)
+       time.sleep(5)
 
 if __name__ == "__main__":
     main()
