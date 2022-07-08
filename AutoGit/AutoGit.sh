@@ -4,7 +4,9 @@
 #FUNCION PARA LLAMAR A GIT
 function autoGit
 {
-	git checkout -b autogit
+	if ! git checkout -b autogit; then
+		git checkout autogit
+	fi
 	git add .
 	git commit -m "AutomaticGit  $(date)"
 	#NO ES NECESARIO
