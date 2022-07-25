@@ -4,6 +4,7 @@
 #FUNCION PARA LLAMAR A GIT
 function autoGit
 {
+	echo "$(date) - "$PWD >> /home/lukas/Project/Toolkit/AutoGit/git.logs
 	if ! git checkout -b autogit; then
 		git checkout autogit
 	fi
@@ -18,15 +19,15 @@ function startAutoGit
 {
 	#POSICIONAR PROGRAMA EN DIRECTORIO DE PROYECTOS
 	#cd ~/Cursus_42
-	cd ~/Projects
+	cd ~/Project
 	pwd
 	paths=$(find . -name .git)
 	for elem in $paths; do
 		tmp=${elem%.git}
 		tmp=${tmp#./}
 		#echo ~/Cursus_42/$tmp
-		echo /home/lukas/Projects/$tmp
-		cd /home/lukas/Projects/$tmp
+		echo /home/lukas/Project/$tmp
+		cd /home/lukas/Project/$tmp
 		pwd
 		status_lines=$(git status |wc -l)
 		if [[ $status_lines -gt 2 ]]; then
