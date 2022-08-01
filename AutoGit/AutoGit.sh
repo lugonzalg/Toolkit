@@ -11,7 +11,7 @@ function autoGit
 	git add .
 	git commit -m "AutomaticGit  $(date)"
 	#NO ES NECESARIO
-	#git push origin autogit
+	git push origin autogit
 }
 
 #BUSCAR TODOS LOS REPOS EN CARPETA
