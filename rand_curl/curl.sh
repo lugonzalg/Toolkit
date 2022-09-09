@@ -3,12 +3,12 @@
 function call
 {
     str="$1:$2:$3"
-    url="https://plataforma.ibizasmartisland.com:443/api/v1/871d7abd15d7593800a1/telemetry"
+    url="https://plataforma.ibizasmartisland.com:443/api/v1/$UPS/telemetry"
     echo $str
     echo $url
     curl -X 'POST' \
       $url \
-      #'http://212.227.169.80:8080/api/v1/71443e8d592c430f4622/telemetry' \
+      #'http://212.227.169.80:8080/api/v1/$UPS/telemetry' \
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
       -d "{\"data_mydata\":\"$str\"}"
@@ -17,7 +17,7 @@ function call
 function tmpCurl
 {
   curl -X 'POST' \
-  'https://plataforma.ibizasmartisland.com:443/api/v1/qwre/attributes' \
+  'https://plataforma.ibizasmartisland.com:443/api/v1/$UPS/attributes' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '"string"'
@@ -28,7 +28,7 @@ function tmpCurl
 #    str=$(($RANDOM % 100))
 #   echo $str
 #    curl -X 'POST' \
-##      'http://212.227.169.80:8080/api/v1/174d5c06a6159b222154/telemetry' \
+##      'http://212.227.169.80:8080/api/v1/$UPS/telemetry' \
 #      -H 'accept: application/json' \
 #      -H 'Content-Type: application/json' \
 #      -d '{Amp_hour:10}'
@@ -41,7 +41,7 @@ function tmpCurl
 #        echo $elem
 #    done
 #    curl -X 'POST' \
-#      "http://212.227.169.80:8080/api/v1/379408aa1e73ee4a9602/telemetry" \
+#      "http://212.227.169.80:8080/api/v1/$UPS/telemetry" \
 #      -H 'accept: application/json' \
 #      -H 'Content-Type: application/json' \
 #      -d "{\"data_mydata\":\"C:$1,$2\"}"

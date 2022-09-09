@@ -1,29 +1,36 @@
 #1/bin/bash
 
-cd $1
+echo $PWD
 
-touch docker-compose.yml
+echo -n "Docker image name: "
+read REPLY
 
 echo \
-"
-version: "3.8"
+"version: \"3.8\"
 serivce:
-	image: test
-
+	image: $REPLY
 " > docker-compose.yml
 
 echo \
-".PHONY: up down logs ps
+'.PHONY: up down live logs ps
 
 up:
-	test
+	docker-compose up -d
+
+live:
+	docker-compose up
 
 down:
-	test
+	docker-compose down
 
 logs:
-	test
+	docker-compose logs
 
 ps:
-	test
-" > Makefile
+	docker-compose ps
+' > Makefile
+
+echo \
+"FROM $REPLY
+
+RUN" > Dockerfile

@@ -3,7 +3,7 @@ import random
 import time
 
 def test(t):
-    url="https://plataforma.ibizasmartisland.com:443/api/v1/871d7abd15d7593800a1/telemetry"
+    url="https://plataforma.ibizasmartisland.com:443/api/v1/$UPS/telemetry"
     myHeaders = {
         'accept': 'application/json',
         'Content-Type': 'application/json',
