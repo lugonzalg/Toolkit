@@ -4,7 +4,7 @@ touch main.py
 
 echo \
 "
-#!/bin/bash
+#!/bin/python3
 
 def main() -> None:
 	pass
