@@ -7,7 +7,7 @@ read REPLY
 
 echo \
 "version: \"3.8\"
-serivce:
+services:
 	image: $REPLY
 " > docker-compose.yml
 
