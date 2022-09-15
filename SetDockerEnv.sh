@@ -8,14 +8,22 @@ read REPLY
 echo \
 "version: \"3.8\"
 services:
-	image: $REPLY
+  $REPLY:
+    build: .
+    image: $REPLY
 " > docker-compose.yml
 
 echo \
-'.PHONY: up down live logs ps
+".PHONY: up build down live logs ps
 
 up:
 	docker-compose up -d
+
+build:
+	docker-compose up --build -d
+
+exec:
+	docker-compose exec $REPLY /bin/bash
 
 live:
 	docker-compose up
@@ -28,9 +36,8 @@ logs:
 
 ps:
 	docker-compose ps
-' > Makefile
+" > Makefile
 
 echo \
 "FROM $REPLY
-
-RUN" > Dockerfile
+" > Dockerfile

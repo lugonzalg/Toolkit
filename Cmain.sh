@@ -8,3 +8,5 @@ echo \
 	return 0;
 }
 " > main.c
+
+vim main.c
