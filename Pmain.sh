@@ -3,8 +3,7 @@
 touch main.py
 
 echo \
-"
-#!/bin/python3
+"#!/bin/python3
 
 def main() -> None:
 	pass
@@ -12,3 +11,7 @@ def main() -> None:
 if __name__ == \"__main__\":
 	main()
 " > main.py
+
+chmod +x main.py
+
+vim main.py

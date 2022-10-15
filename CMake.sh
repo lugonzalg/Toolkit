@@ -7,6 +7,9 @@ CC		= gcc
 CFLAGS	= -Wall -Werror -Wextra -g3
 SNTZ	= -fsanitize=address
 
+INC		= -I .
+LIB		= -L .
+
 FILES	= main
 
 SRC 	= \$(addsuffix .c, \$(FILES))
@@ -19,6 +22,9 @@ OBJ 	= \$(addsuffix .o, \$(FILES))
 	\$(CC) \$(CFLAGS) \$(SNTZ) -o \$(NAME) \$(OBJ)
 
 all: \$(NAME)
+
+run: all
+	./\$(NAME)
 
 clean:
 	\$(RM) \$(OBJ)

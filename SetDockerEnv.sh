@@ -1,43 +1,86 @@
 #1/bin/bash
 
-echo $PWD
+path=""
+
+while true; do
+	echo -n "full or mid: "
+	read mode
+
+	if [ "$mode" = "full" ] || [ "$mode" = "mid" ]; then
+		break
+	else
+		echo "Error: Wrong parameter -> $mode"
+	fi
+done
+
+if [ $mode = "full" ]; then
+	echo \
+	"COMPOSE=docker-compose -f srcs/docker-compose.yml
+
+	.PHONY: up build down live logs ps
+
+	up:
+		\$(COMPOSE) up -d
+
+	restart:
+		\%(COMPOSE) restart
+
+	build:
+		\$(COMPOSE) up --build -d
+
+	exec:
+		\$(COMPOSE) exec $name /bin/bash
+
+	live:
+		\$(COMPOSE) up
+
+	down:
+		\$(COMPOSE) down
+
+	logs:
+		\$(COMPOSE) logs
+
+	ps:
+		\$(COMPOSE) ps
+
+	edit:
+		vim ./srcs/docker-compose.yml
+
+	in:
+		\$(COMPOSE) exec $name /bin/bash
+
+	clean:
+		docker system prune
+	" > Makefile
+
+	mkdir -p srcs
+	path=$path"srcs/"
+fi
+
+
+
+echo -n "Docker name name: "
+read name
 
 echo -n "Docker image name: "
-read REPLY
+read image
 
-echo \
+echo -n "image package manager name: "
+read add
+
+echo -n \
 "version: \"3.8\"
 services:
-  $REPLY:
-    build: .
-    image: $REPLY
-" > docker-compose.yml
+  $name:
+   container_name: $name
+   build: .
+   image: $image
+   entrypoint: tail -f
+" > $path"docker-compose.yml"
+
 
 echo \
-".PHONY: up build down live logs ps
+"FROM $image
 
-up:
-	docker-compose up -d
-
-build:
-	docker-compose up --build -d
-
-exec:
-	docker-compose exec $REPLY /bin/bash
-
-live:
-	docker-compose up
-
-down:
-	docker-compose down
-
-logs:
-	docker-compose logs
-
-ps:
-	docker-compose ps
-" > Makefile
-
-echo \
-"FROM $REPLY
-" > Dockerfile
+RUN $add bash
+" > $path"Dockerfile"
