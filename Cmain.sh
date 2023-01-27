@@ -1,7 +1,9 @@
 #!/bin/bash
 
 echo \
-"int	main(int ac, char *av[]) {
+"#include <stdio.h>
+
+int	main(int ac, char *av[]) {
 	
 	(void)ac;
 	(void)av;
