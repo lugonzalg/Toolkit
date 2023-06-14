@@ -1,32 +1,35 @@
 #1/bin/bash
 
-path=""
-prog="requirements"
+PATH=""
+REQUIREMENTS="requirements"
 
 while true; do
 	echo -n "full or mid: "
-	read mode
+	read MODE
 
-	if [ "$mode" = "full" ] || [ "$mode" = "mid" ]; then
+	if [ "$MODE" = "full" ] || [ "$MODE" = "mid" ]; then
 		break
 	else
-		echo "Error: Wrong parameter -> $mode"
+		echo "Error: Wrong parameter -> $MODE"
 	fi
 done
 
-echo -n "Docker container name: "
-read name
+echo -n "Docker container NAME: "
+read NAME
 
-echo -n "Docker image name: "
-read image
+echo -n "Docker IMAGE NAME: "
+read IMAGE
 
-echo -n "image package manager name: "
-read add
+echo -n "IMAGE package manager NAME: "
+read ADD
+
+echo -n "PROJECT name: "
+read PROJECT
 
 
-if [ $mode = "full" ]; then
+if [ $MODE = "full" ]; then
 	echo \
-	"COMPOSE=docker-compose -f $prog/docker-compose.yml
+	"COMPOSE=docker-compose -f $REQUIREMENTS/docker-compose.yml
 
 .PHONY: up build clean down edit live logs ps in restart
 
@@ -37,7 +40,7 @@ restart:
 	\$(COMPOSE) restart
 
 build:
-	\$(COMPOSE) up --build -d
+	\$(COMPOSE) build --no-cache
 
 live:
 	\$(COMPOSE) up
@@ -52,20 +55,16 @@ ps:
 	\$(COMPOSE) ps
 
 edit:
-	vim ./$prog/docker-compose.yml
-
-in:
-	\$(COMPOSE) exec $name /bin/bash
+	vim ./$REQUIREMENTS/docker-compose.yml
 
 clean:
 	docker system prune
 
-ip:
-	\$(COMPOSE) exec $name hostname -I
 	" > Makefile
 
-	mkdir -p $prog
-	path=$path"$prog/"
+	mkdir -p $REQUIREMENTS
+	mkdir -p $PROJECT
+	PATH=$PATH"$REQUIREMENTS/"
 fi
 
 
@@ -73,16 +72,17 @@ fi
 echo -n \
 "version: \"3.8\"
 services:
-  $name:
-   build: .
-   container_name: $name
-   image: $image
-   entrypoint: tail -f
-" > $path"docker-compose.yml"
+	$NAME:
+		container_NAME: $NAME
+		build:
+			context: ./$PROJECT
+			dockerfile: Dockerfile
+		entrypoint: tail -f
+" > $PATH"docker-compose.yml"
 
 
 echo \
-"FROM $image
+"FROM $IMAGE
 
-RUN $add bash
-" > $path"Dockerfile"
+RUN $ADD bash
+" > $PATH"Dockerfile"
