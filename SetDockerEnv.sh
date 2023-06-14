@@ -1,7 +1,7 @@
 #1/bin/bash
 
-PATH=""
-REQUIREMENTS="requirements"
+path=""
+requirements="requirements"
 
 while true; do
 	echo -n "full or mid: "
@@ -14,22 +14,22 @@ while true; do
 	fi
 done
 
-echo -n "Docker container NAME: "
-read NAME
+echo -n "Docker container name: "
+read name
 
-echo -n "Docker IMAGE NAME: "
+echo -n "Docker IMAGE name: "
 read IMAGE
 
-echo -n "IMAGE package manager NAME: "
+echo -n "IMAGE package manager name: "
 read ADD
 
-echo -n "PROJECT name: "
-read PROJECT
+echo -n "project name: "
+read project
 
 
 if [ $MODE = "full" ]; then
 	echo \
-	"COMPOSE=docker-compose -f $REQUIREMENTS/docker-compose.yml
+	"COMPOSE=docker-compose -f $requirements/docker-compose.yml
 
 .PHONY: up build clean down edit live logs ps in restart
 
@@ -55,16 +55,17 @@ ps:
 	\$(COMPOSE) ps
 
 edit:
-	vim ./$REQUIREMENTS/docker-compose.yml
+	vim ./$requirements/docker-compose.yml
 
 clean:
 	docker system prune
 
 	" > Makefile
 
-	mkdir -p $REQUIREMENTS
-	mkdir -p $PROJECT
-	PATH=$PATH"$REQUIREMENTS/"
+
+	mkdir -p $requirements
+	mkdir -p $requirements/$project
+	path=$path"$requirements/"
 fi
 
 
@@ -72,17 +73,17 @@ fi
 echo -n \
 "version: \"3.8\"
 services:
-	$NAME:
-		container_NAME: $NAME
+	$name:
+		container_name: $name
 		build:
-			context: ./$PROJECT
+			context: ./$project
 			dockerfile: Dockerfile
 		entrypoint: tail -f
-" > $PATH"docker-compose.yml"
+" > $path"docker-compose.yml"
 
 
 echo \
 "FROM $IMAGE
 
 RUN $ADD bash
-" > $PATH"Dockerfile"
+" > $path"Dockerfile"
