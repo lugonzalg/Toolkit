@@ -1,7 +1,8 @@
 #1/bin/bash
 
-path=""
+path="."
 requirements="requirements"
+srcs="srcs"
 
 while true; do
 	echo -n "full or mid: "
@@ -18,10 +19,10 @@ echo -n "Docker container name: "
 read name
 
 echo -n "Docker IMAGE name: "
-read IMAGE
+read image
 
 echo -n "IMAGE package manager name: "
-read ADD
+read add
 
 echo -n "project name: "
 read project
@@ -29,7 +30,7 @@ read project
 
 if [ $MODE = "full" ]; then
 	echo \
-	"COMPOSE=docker-compose -f $requirements/docker-compose.yml
+	"COMPOSE=docker-compose -f $srcs/docker-compose.yml
 
 .PHONY: up build clean down edit live logs ps in restart
 
@@ -55,7 +56,7 @@ ps:
 	\$(COMPOSE) ps
 
 edit:
-	vim ./$requirements/docker-compose.yml
+	vim ./$srcs/docker-compose.yml
 
 clean:
 	docker system prune
@@ -63,27 +64,39 @@ clean:
 	" > Makefile
 
 
-	mkdir -p $requirements
-	mkdir -p $requirements/$project
-	path=$path"$requirements/"
+	mkdir -p $srcs
+	mkdir -p $srcs/$requirements
+	mkdir -p $srcs/$requirements/$project
+	path="$path/$srcs"
 fi
 
 
 
+#TODO CREATE INTERACTIVE SEQUENCE WHERE I GOT ASKED IF THERE ARE VOLUMES
+#TODO CREATE INTERATIVE SEQUENCE TO CREATE MULTIPLE SERVICE WITHIN THE SAME DOCKER COMPOSE
+
 echo -n \
 "version: \"3.8\"
 services:
-	$name:
-		container_name: $name
-		build:
-			context: ./$project
-			dockerfile: Dockerfile
-		entrypoint: tail -f
-" > $path"docker-compose.yml"
+  $name:
+    container_name: $name
+    build:
+	  context: ./$requirements/$project
+	  dockerfile: Dockerfile
+
+	networks:
+	  - default
+
+	entrypoint: tail -f
+
+networks:
+  default:
+    driver: bridge
+" > "$path/docker-compose.yml"
 
 
 echo \
-"FROM $IMAGE
+"FROM $image
 
-RUN $ADD bash
-" > $path"Dockerfile"
+RUN $add bash
+" > "$path/$requirements/$project/Dockerfile"
